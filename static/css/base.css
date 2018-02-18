@@ -1,3 +1,14 @@
 .logo{
     height:30px;
 }
+
+body{
+    background: #f3f3f3;
+}
+.main{
+    background: #fff;
+    width: 730px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
