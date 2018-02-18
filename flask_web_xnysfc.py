@@ -1,5 +1,5 @@
 #coding:utf-8
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request,redirect,url_for,session
 import config
 from models import User
 from exts import db
@@ -19,7 +19,18 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     else:
-        pass
+        telephone = request.form.get('telephone')
+        password = request.form.get('password')
+        user = User.query.filter(User.telephone ==telephone ,User.password ==password).first()
+        if user:
+            session['user_id'] = user.id
+            #如果你想在31天内都不需要登录
+            session.permanent = True
+            return redirect(url_for('index'))
+        else:
+            return u"手机号码或者密码错误请登录"
+
+
 
 @app.route('/register/',methods=['GET','POST'])
 def register():

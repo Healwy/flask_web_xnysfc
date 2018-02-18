@@ -4,7 +4,7 @@ import os
 
 DEBUG = True
 
-SCRET_KEY = os.urandom(24)
+SECRET_KEY = os.urandom(24)
 
 DIALECT = 'mysql'
 DRIVER = 'mysqldb'
