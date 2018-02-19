@@ -57,5 +57,11 @@ def register():
                 #如果注册成功就跳转到登录页面
                 return redirect(url_for('login'))
 
+@app.route("/question/")
+def question():
+    if request.method =='GET':
+        return render_template('question.html')
+
+
 if __name__ == '__main__':
     app.run()
