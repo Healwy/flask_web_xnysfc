@@ -15,3 +15,7 @@ body{
 .page-title{
     text-align: center;
 }
+
+.question-content{
+    margin-left: 60px;
+}

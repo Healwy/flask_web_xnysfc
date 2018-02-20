@@ -3,7 +3,7 @@ from flask_script import Manager
 from flask_migrate import Migrate,MigrateCommand
 from flask_web_xnysfc import app
 from exts import db
-from models import User,Question
+from models import User,Question,Answer
 
 manager = Manager(app)
 

@@ -1,7 +1,7 @@
 # coding:utf-8
 from flask import Flask, render_template, request, redirect, url_for, session
 import config
-from models import User, Question
+from models import User, Question ,Answer
 from exts import db
 from decorators import login_required
 
@@ -13,10 +13,10 @@ db.init_app(app)
 
 @app.route('/')
 def index():
-    context ={
-        'questions':Question.query.order_by('-create_time').all()
+    context = {
+        'questions': Question.query.order_by('-create_time').all()
     }
-    return render_template('index.html',**context)
+    return render_template('index.html', **context)
 
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -62,7 +62,7 @@ def register():
                 return redirect(url_for('login'))
 
 
-@app.route("/question/",methods=['GET','POST'])
+@app.route("/question/", methods=['GET', 'POST'])
 @login_required
 def question():
     if request.method == 'GET':
@@ -77,6 +77,28 @@ def question():
         db.session.add(question)
         db.session.commit()
         return redirect(url_for('index'))
+
+
+@app.route('/detail/<question_id>')
+def detail(question_id):
+    question_model = Question.query.filter(Question.id == question_id).first()
+    return render_template('detail.html', question=question_model)
+
+@app.route('/answer/',methods=['POST'])
+@login_required
+def add_answer():
+    content = request.form.get('answer_content')
+    question_id = request.form.get('question_id')
+    answer =Answer(content=content)
+    user_id = session.get('user_id')
+    user = User.query.filter(User.id == user_id).first()
+    answer.author =user
+    question = Question.query.filter(Question.id == question_id).first()
+    answer.question = question
+    db.session.add(answer)
+    db.session.commit()
+    return redirect(url_for('detail',question_id=question_id))
+
 
 
 if __name__ == '__main__':
